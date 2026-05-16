@@ -9,8 +9,14 @@ import sessionsRouter from './routes/sessions.router.js';
 
 const app = express();
 const PORT = process.env.PORT||8080;
-console.log('MONGO_URL:', process.env.MONGO_URL ? process.env.MONGO_URL.substring(0, 20) + '...' : 'UNDEFINED');
-const connection = mongoose.connect(process.env.MONGO_URL)
+const mongoURI = process.env.MONGO_URL;
+
+if (!mongoURI) {
+  console.error("❌ ERROR: La variable de entorno MONGO_URL está vacía o no definida.");
+  process.exit(1); 
+}
+
+const connection = mongoose.connect(mongoURI)
 
 app.use(express.json());
 app.use(cookieParser());
