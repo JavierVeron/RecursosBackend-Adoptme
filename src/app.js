@@ -16,7 +16,13 @@ if (!mongoURI) {
   process.exit(1); 
 }
 
-const connection = mongoose.connect(mongoURI)
+try {
+  await mongoose.connect(mongoURI);
+  console.log("🌱 Conexión a MongoDB Atlas establecida con éxito.");
+} catch (error) {
+  console.error("❌ Error al conectar a MongoDB:", error.message);
+  process.exit(1);
+}
 
 app.use(express.json());
 app.use(cookieParser());
